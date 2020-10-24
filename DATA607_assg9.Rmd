@@ -1,13 +1,14 @@
 ---
-title: 'Web APIs'
+title: "Web APIs"
 author: "Alexis Mekueko"
 date: "10/23/2020"
 output:
-  beamer_presentation: default
+  slidy_presentation: default
   html_document:
     df_print: paged
+  beamer_presentation: default
   pdf_document: default
-  slidy_presentation: default
+  ioslides_presentation: default
 header-includes:
 - \usepackage{tikz}
 - \usetikzlibrary{positioning,shapes.multipart,shapes}
@@ -69,7 +70,9 @@ library(httr)
 
 ```
 
-Github Link: 
+Github Link: https://github.com/asmozo24/DATA607_Assignment9.git
+
+Web link: 
 
 
 
@@ -81,40 +84,55 @@ glimpse(NyTimes_newsJ) display all the 20 observations of  22 variables. Now I w
 
 ```{r}
 
-#Get the content of books.xml and assigns it to book.xml 
-NyTimes_newsRaw <- GET("https://api.nytimes.com/svc/mostpopular/v2/shared/7/facebook.json?api-key=K2Yl3COR8LJh0kxjVuyWWb9svbI1NyWj") 
-print("Response object from GET(), status: 200 means the GET() call was successful")
-NyTimes_newsRaw
 
+NyTimes_newsRaw <- GET("https://api.nytimes.com/svc/mostpopular/v2/shared/7/facebook.json?api-key=K2Yl3COR8LJh0kxjVuyWWb9svbI1NyWj") 
+NyTimes_newsRaw
+print("Response object from GET(), status: 200 means the GET() call was successful")
+
+
+#Just to see how the header looks like
 headers(NyTimes_newsRaw)
 
-NyTimes_newsC <- content(NyTimes_newsRaw, as = 'text')  # getting content
-#str(NyTimes_newsC)
+ # getting content .....str(NyTimes_newsC)
+NyTimes_newsC <- content(NyTimes_newsRaw, as = 'text') 
 
 NyTimes_newsJ <- fromJSON(NyTimes_newsC)
 
-glimpse(NyTimes_newsJ) # THIS GIVES me an overview of all news in category 
-
+# THIS GIVES me an overview of content
+glimpse(NyTimes_newsJ) 
 #names(NyTimes_newsJ) 
 
 sampl1 <- NyTimes_newsJ$results$url[1]  # use $ to print the first link 
-cat("The most popular article from New York Times shared on facebook is: ",  sampl1)
+#cat("The most popular article from New York Times shared on facebook is: ",  sampl1)
 
 # most viewed article on New York Times
 NyTimes_newsRaw2 <- GET("https://api.nytimes.com/svc/mostpopular/v2/viewed/1.json?api-key=K2Yl3COR8LJh0kxjVuyWWb9svbI1NyWj") 
-print("Response object from GET(), status: 200 means the GET() call was successful")
+#print("Response object from GET(), status: 200 means the GET() call was successful")
 
-headers(NyTimes_newsRaw2)
+#headers(NyTimes_newsRaw2)
 NyTimes_newsC2 <- content(NyTimes_newsRaw2, as = 'text')  # getting content
 #str(NyTimes_newsC2)
 
 NyTimes_newsJ2 <- fromJSON(NyTimes_newsC2)
+sampl2 <- NyTimes_newsJ2$results$url[1]
 
-cat("The most viewed article on The New York Times is :", NyTimes_newsJ2$results$url[1])
+#cat("The most viewed article on The New York Times is :") 
+
 
 
 
 ```
+
+```{r, results="asis", echo=FALSE}
+
+cat(paste0("The most popular article from New York Times shared on facebook: ","[", "[click here]", "](", sampl1, ")","\n"), "\n")
+cat(paste0("The most viewed article on The New York Times: ","[", "[click here]", "](",sampl2, ")","\n"))
+
+
+```
+
+
+                   
 
 #Conclusion: The New York Times API can be easy to use in scraping articles published on their website. However, I think the website it is pretty nested and need a better understanding of the New York Times website structure. 
 
