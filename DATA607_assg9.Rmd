@@ -16,8 +16,6 @@ header-includes:
 
 
 
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -32,13 +30,18 @@ library(tidyverse) #loading all library needed for this assignment
 #head(fastfood)
 library(readxl)
 #library(data.table)
+library(DT)
+library(knitr)
+
 library(readr)
-library(plyr)
+#library(plyr)
 library(dplyr)
 library(stringr)
 library(XML)
 library(RCurl)
 library(jsonlite)
+library(httr)
+
 #library(maps)
 #library(dice)
 # #library(VennDiagram)
@@ -71,97 +74,49 @@ Github Link:
 
 
 
-
-
-## Description: 
-This assginment is about learning how to pull less-structured data from the web. To get started, I will get familiar with R and HTML, XML and JSON formats: For Rmarkdown,, we will create R-srcipt to generate file in HTML, XML and JSON formats. We will use 03 books of a choice and use the R-script to access information about this book and display them. These information include the title, authors, and 2-3 other attributes of three books, at least one having more than one author. This assignment will also give more string manipulation functions and regular expressions.We should have 03 distincts files of the sames books in each of these 03 formats.
-
-## Approach
-
-My approach is to read: Automated Data Collection with R, chapters 2 through 6., Data Science for Business, Chapter 7.Handling and Processing Strings in R, Gaston Sanchez, Includes link to freely downloadable (113 pp.!) eBook with good material on base R and stringr package string manipulation and grep. If you are new to HTML, XML and JSON, and HTTP technologies, you may want to go through one of the many good on-line tutorials.  For example, here are w3schools.com's introduction to JSON, and to XPath.
-https://www.w3schools.com/js/js_json_intro.asp
-https://www.w3schools.com/xml/xpath_intro.asp
-
-
-load required library or Rpackages, download book to github  
-library(RCurl)
-library(XML)
-library(stringr)
-library(plyr)
-
-## HTML Fornat 
-
-Hypertext Markup Language or HTML is a language for presenting content on the Web that was first proposed by Tim Berners-Lee (1989). Although,HTML is not a dedicated data storage format, it frequently contains the information that we are interested in. We find data in texts, tables, lists, links, or other structures. Unfortunately, there is a difference between the way data are presented in a browser on the one side and how they are stored within the HTML code on the other.
-
-Very long time since I did some Html coding.  
-```{r}
-
-
-
-# link to access data I needed
-books.html <- getURL("https://raw.githubusercontent.com/asmozo24/DATA607_Assignment7/main/My_03Books.html")
-# reading the table
-books.html <- readHTMLTable(books.html, header = TRUE)
-
-books.html
-# from Book published year, cast to numeric
-
-
-```
-
-
-
-## XML Format
-
-The ExtensibleMarkup Language orXML is one of themost popular formats for exchanging data over the Web. It is related to HTML in that both are markup languages. However,
-while HTML is used to shape the display of information, the main purpose of XML is to store data.
-
-```{r}
-
-# link to github to access data needed
-books.xml<- "https://raw.githubusercontent.com/asmozo24/DATA607_Assignment7/main/My_03Books.XML"
-
-#Get the content of books.xml and assigns it to book.xml 
-books.xml<- getURLContent(books.xml) 
-# convert using function xmlToDataFrame(x) 
-books.xml<- xmlToDataFrame(books.xml) 
-view(books.xml)
-
-
-
-```
-
-
-
-## Books Json
-
-JSON. The acronym (pronounced “Jason”) stands for JavaScript Object Notation. JSON was designed for the same tasks that XML is often used for—the storage and exchange of humanreadable
-data. Many APIs by popular web applications provide data in the JSON format. JSON is a data format that has its origins in the JavaScript programming language.JSON allows a set of different data types for the value part of key/value pairs. From the perspective of an XML user, note what is not possible in JSON: We cannot add comments, we do not distinguish between missing values and null values, there are no namespaces and no internal validation syntax like XML’s DTD. But this  does not make JSON inferior to XML in absolute terms. They are rather based on different concepts. JSON is not a markup language and not even a document format.
-
+# Description
+This assignment of week 9 is about practicing web API calls. How to get web API in R. 
+Approach: I signed up on New York Time to get an API key. there are various option group in category. I chose the "most "Most Popular" and played around to see what I can get for news. I used GET() for httr request functions on the most shared news within 7days on facebook. 
+glimpse(NyTimes_newsJ) display all the 20 observations of  22 variables. Now I want to print out a link to let's say a news 
 
 ```{r}
 
 #Get the content of books.xml and assigns it to book.xml 
-NyTimes_news <- getURL("https://api.nytimes.com/svc/mostpopular/v2/shared/7/facebook.json?api-key=K2Yl3COR8LJh0kxjVuyWWb9svbI1NyWj") 
-NyTimes_news <- fromJSON(NyTimes_news)
+NyTimes_newsRaw <- GET("https://api.nytimes.com/svc/mostpopular/v2/shared/7/facebook.json?api-key=K2Yl3COR8LJh0kxjVuyWWb9svbI1NyWj") 
+print("Response object from GET(), status: 200 means the GET() call was successful")
+NyTimes_newsRaw
 
-Books.Json <- getURL("https://raw.githubusercontent.com/asmozo24/DATA607_Assignment7/main/My_03Books.JSON")
-# call function fromJSON()
-Books.Json <- fromJSON(Books.Json)
-Books.Json
+headers(NyTimes_newsRaw)
+
+NyTimes_newsC <- content(NyTimes_newsRaw, as = 'text')  # getting content
+#str(NyTimes_newsC)
+
+NyTimes_newsJ <- fromJSON(NyTimes_newsC)
+
+glimpse(NyTimes_newsJ) # THIS GIVES me an overview of all news in category 
+
+#names(NyTimes_newsJ) 
+
+sampl1 <- NyTimes_newsJ$results$url[1]  # use $ to print the first link 
+cat("The most popular article from New York Times shared on facebook is: ",  sampl1)
+
+# most viewed article on New York Times
+NyTimes_newsRaw2 <- GET("https://api.nytimes.com/svc/mostpopular/v2/viewed/1.json?api-key=K2Yl3COR8LJh0kxjVuyWWb9svbI1NyWj") 
+print("Response object from GET(), status: 200 means the GET() call was successful")
+
+headers(NyTimes_newsRaw2)
+NyTimes_newsC2 <- content(NyTimes_newsRaw2, as = 'text')  # getting content
+#str(NyTimes_newsC2)
+
+NyTimes_newsJ2 <- fromJSON(NyTimes_newsC2)
+
+cat("The most viewed article on The New York Times is :", NyTimes_newsJ2$results$url[1])
 
 
 
 ```
 
-
-
-Conclusion: The data is the same data. However, When I call view() for the 03 files I see a problem on the header
-also, html and json parse the Peter Meißner, Peter MeiÃƒÂŸner, which mean the special character is not accpeted or the equivalent is wrong.
-
-
-
-
+#Conclusion: The New York Times API can be easy to use in scraping articles published on their website. However, I think the website it is pretty nested and need a better understanding of the New York Times website structure. 
 
 \tikzset{basic/.style={
         draw,
