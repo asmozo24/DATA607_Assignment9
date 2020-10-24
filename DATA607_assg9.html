@@ -564,7 +564,7 @@ Alexis Mekueko
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">NyTimes_newsRaw &lt;-<span class="st"> </span><span class="kw">GET</span>(<span class="st">&quot;https://api.nytimes.com/svc/mostpopular/v2/shared/7/facebook.json?api-key=K2Yl3COR8LJh0kxjVuyWWb9svbI1NyWj&quot;</span>) </a>
 <a class="sourceLine" id="cb2-2" title="2">NyTimes_newsRaw</a></code></pre></div>
 <pre><code>## Response [https://api.nytimes.com/svc/mostpopular/v2/shared/7/facebook.json?api-key=K2Yl3COR8LJh0kxjVuyWWb9svbI1NyWj]
-##   Date: 2020-10-24 19:23
+##   Date: 2020-10-24 19:32
 ##   Status: 200
 ##   Content-Type: application/json; charset=utf-8
 ##   Size: 37.2 kB</code></pre>
@@ -573,7 +573,7 @@ Alexis Mekueko
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co">#Just to see how the header looks like</span></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="kw">headers</span>(NyTimes_newsRaw)</a></code></pre></div>
 <pre><code>## $date
-## [1] &quot;Sat, 24 Oct 2020 19:23:08 GMT&quot;
+## [1] &quot;Sat, 24 Oct 2020 19:32:14 GMT&quot;
 ## 
 ## $`content-type`
 ## [1] &quot;application/json; charset=utf-8&quot;
@@ -591,13 +591,13 @@ Alexis Mekueko
 ## [1] &quot;FACEBOOK 7&quot;
 ## 
 ## $`x-request-id`
-## [1] &quot;1603567333490464976&quot;
+## [1] &quot;1603567934299675562&quot;
 ## 
 ## $`content-encoding`
 ## [1] &quot;gzip&quot;
 ## 
 ## $`x-cloud-trace-context`
-## [1] &quot;c9438ce5a02da2c9ef0300e7fef736a1&quot;
+## [1] &quot;68c42989fc1468230d8509327c4221d8;o=1&quot;
 ## 
 ## $server
 ## [1] &quot;Google Frontend&quot;
@@ -609,19 +609,19 @@ Alexis Mekueko
 ## [1] &quot;1.1 varnish&quot;
 ## 
 ## $age
-## [1] &quot;54&quot;
+## [1] &quot;0&quot;
 ## 
 ## $`x-served-by`
-## [1] &quot;cache-pao17450-PAO&quot;
+## [1] &quot;cache-sjc10037-SJC&quot;
 ## 
 ## $`x-cache`
-## [1] &quot;HIT&quot;
+## [1] &quot;MISS&quot;
 ## 
 ## $`x-cache-hits`
-## [1] &quot;1&quot;
+## [1] &quot;0&quot;
 ## 
 ## $`x-timer`
-## [1] &quot;S1603567388.054417,VS0,VE1&quot;
+## [1] &quot;S1603567934.903202,VS0,VE496&quot;
 ## 
 ## $vary
 ## [1] &quot;Accept-Encoding&quot;
@@ -791,9 +791,9 @@ Alexis Mekueko
 <a class="sourceLine" id="cb10-15" title="15">sampl2 &lt;-<span class="st"> </span>NyTimes_newsJ2<span class="op">$</span>results<span class="op">$</span>url[<span class="dv">1</span>]</a>
 <a class="sourceLine" id="cb10-16" title="16"></a>
 <a class="sourceLine" id="cb10-17" title="17"><span class="co">#cat(&quot;The most viewed article on The New York Times is :&quot;) </span></a></code></pre></div>
-<p>The most popular article from New York Times shared on facebook: <a href="https://www.nytimes.com/2020/10/21/world/europe/pope-francis-same-sex-civil-unions.html">[click here].</a></p>
-<p>The most viewed article on The New York Times: <a href="https://www.nytimes.com/2020/10/23/opinion/debate-trump-biden-who-won.html">[click here].</a></p>
-<p>#Conclusion: The New York Times API can be easy to use in scraping articles published on their website. However, I think the website it is pretty nested and need a better understanding of the New York Times website structure.</p>
+<p>The most popular article from New York Times shared on facebook: <a href="https://www.nytimes.com/2020/10/21/world/europe/pope-francis-same-sex-civil-unions.html">[click here]</a></p>
+<p>The most viewed article on The New York Times: <a href="https://www.nytimes.com/2020/10/23/opinion/debate-trump-biden-who-won.html">[click here]</a></p>
+<p>#Conclusion The New York Times API can be easy to use in scraping articles published on their website. However, I think the website it is pretty nested and need a better understanding of the New York Times website structure.</p>
 
 </div>
 

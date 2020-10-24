@@ -72,7 +72,7 @@ library(httr)
 
 Github Link: https://github.com/asmozo24/DATA607_Assignment9.git
 
-Web link: 
+Web link: https://rpubs.com/amekueko/680865
 
 
 
@@ -134,7 +134,8 @@ cat(paste0("The most viewed article on The New York Times: ","[", "[click here]"
 
                    
 
-#Conclusion: The New York Times API can be easy to use in scraping articles published on their website. However, I think the website it is pretty nested and need a better understanding of the New York Times website structure. 
+#Conclusion 
+The New York Times API can be easy to use in scraping articles published on their website. However, I think the website it is pretty nested and need a better understanding of the New York Times website structure. 
 
 \tikzset{basic/.style={
         draw,
